@@ -1,0 +1,325 @@
+﻿@{
+    Layout = "_MyLayout";
+    ViewData["Title"] = "AdminViw";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Tables - SB Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+
+    <style>
+        #mytable td, th {
+            background: #eee;
+            padding: 14px;
+            margin: 9px;
+            border: solid;
+        }
+
+        #mytable {
+            caption-side: bottom;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .contin {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+            .contin select {
+                width: 100%;
+                padding: 10px;
+                margin: 10px 0 20px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                background-color: #f9f9f9;
+                font-size: 16px;
+                color: #333;
+            }
+    </style>
+
+
+
+    <main>
+
+
+        <form action="/Admin/AdminViwe/" method="post">
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Tables</h1>
+
+                <div class="contin">
+                    <label>Courses</label>
+                    <select class="" id="id" name="id" onchange="GetTrainee()">
+                        <option value=0>---- select course ------</option>
+                        @foreach (Course i in ViewBag.cou)
+                        {
+                            <option value="@i.Id">@i.CourseName</option>
+                        }
+                    </select>
+                    <input type="submit" value="Search"></input>
+
+                     
+                    <select id="deptelm" name="deptelm" >
+                        <option value=0>@ViewBag.cours_search</option>
+
+
+                    </select>
+                </div>
+        </form>
+
+
+        <br>
+        <br>
+        @* student table *@
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Students
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Phone</th>
+                            <th>Join date</th>
+                            <th>Gender</th>
+                            <th>Birth Day</th>
+
+                        </tr>
+                    </thead>
+                    <tfoot>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Phone</th>
+                    <th>Join date</th>
+                    <th>Gender</th>
+                    <th>Birth Day</th>
+
+                    </tfoot>
+                    <tbody>
+                        @foreach (Student item in ViewBag.students)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.FullName</td>
+                                <td>@item.Email</td>
+                                <td>@item.Password</td>
+                                <td>@item.Phone</td>
+                                <td>@item.JoinDate</td>
+                                <td>@item.Gender</td>
+                                <td>@item.BirthDay</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <br />
+        @* Instructor table *@
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Instructors
+            </div>
+            <div class="card-body">
+                <table id="mytable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Join date</th>
+                            <th>Gender</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (Instructor item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.FullName</td>
+                                <td>@item.Email</td>
+                                <td>@item.Password</td>
+                                <td>@item.JoinDate</td>
+                                <td>@item.Gender</td>
+                                <td>
+                                    <a href="/Instructor/EditView?id=@item.Id&name=admin">Edit</a>
+                                    <a href="/Instructor/Delete/@item.Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <br />
+        @* courses table *@
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                courses
+            </div>
+            <div class="card-body">
+                <table id="mytable">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>CourseName</th>
+                            <th>Price</th>
+                            <th>level</th>
+                            <th>CreationDate</th>
+                            <th>content</th>
+                            <th>hours</th>
+                            <th>Student Number</th>
+                            <th>Edit</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (coursesModel i in ViewBag.f)
+                        {
+                            <tr>
+                                <td>@i.Id</td>
+                                <td>@i.CourseName</td>
+                                <td>@i.Price</td>
+                                <td>@i.Level</td>
+                                <td>@i.CreationDate</td>
+                                <td>@i.Content</td>
+                                <td>@i.Hours</td>
+                                <td>@i.student_nuber</td>
+                                <td>
+                                    <a href="/Course/EditView/@i.Id">Edit</a>
+                                    <a href="/Course/Delete/@i.Id">Delete</a>
+                                </td>
+
+                            </tr>
+                        }
+
+
+                        @* @foreach (Course i in ViewBag.cou)
+                        {
+                        <tr>
+                        <td>@i.Id</td>
+                        <td>@i.CourseName</td>
+                        <td>@i.Price</td>
+                        <td>@i.Level</td>
+                        <td>@i.CreationDate</td>
+                        <td>@i.Content</td>
+                        <td>@i.Hours</td>
+                        <td>
+                        <a href="/Course/EditView/@i.Id">Edit</a>
+                        <a href="/Course/Delete/@i.Id">Delete</a>
+                        </td>
+
+                        </tr>
+                        } *@
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <br />
+        @* category table *@
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                category
+            </div>
+            <div class="card-body">
+                <table id="mytable">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Category Name</th>
+                            <th>Edit</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (Category i in ViewBag.category)
+                        {
+                            <tr>
+                                <td>@i.Id</td>
+                                <td>@i.CatName</td>
+
+                                <td>
+                                    <a href="/category/EditView/@i.Id">Edit</a>
+                                    <a href="/category/Delete/@i.Id">Delete</a>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        </div>
+
+    </main>
+    <script>
+
+
+
+
+
+
+        function GetTrainee() {
+            var dept_id = document.getElementById("catg").value;
+            console.log(dept_id);
+            $.ajax({
+
+                url: "/Student/StudentById/" + dept_id,
+                success: function (result) {
+                    console.log(result);
+                    document.getElementById("deptelm").innerHTML = "";
+                    for (let i of result) {
+                        document.getElementById("deptelm").innerHTML +=
+
+
+                            " <option value='" + i.id + "'  > " + i.fullName + "</option>";
+                    }
+
+                }
+
+            });
+        }
+    </script>
+
+
+</body>
+</html>
+
+

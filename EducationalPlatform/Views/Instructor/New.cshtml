@@ -1,0 +1,67 @@
+﻿@model Instructor
+@{
+    Layout = "_MyLayout";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="/css/test.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <style>
+        .profile-container{
+            width : 121%;
+        }
+        form{
+            display:block; 
+        }
+        option {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+    </style>
+    <div class="profile-container">
+        <img src="/css/profile.gif" alt="Description of the GIF">
+        <h1>Add Instructor</h1>
+        <form id="profile-form" action="/AddInstructor/" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="FullName">Name</label>
+                <input type="text" id="FullName" name="FullName" value="@Model.FullName">
+            </div>
+            <div class="form-group">
+                <label for="clientFile">Image</label>
+                <input type="file" asp-for="clientFile" class="form-control" >
+                
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="@Model.Email">
+            </div>
+
+            <div class="form-group">
+                <label for="Gender">Gender</label>
+                <select class="form-control" name="Gender" id="Gender">
+                    <option value="">----- Select Gender -----</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="text" id="password" name="password" value="@Model.Password">
+            </div>
+
+            <button type="submit" class="save-button">Save</button>
+        </form>
+    </div>
+</body>
+</html>
